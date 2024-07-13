@@ -1,7 +1,4 @@
-(ETO LALABAS PAG CLINICK SI CHECKOUT BTN)
-
-
- @extends('layouts.app')
+@extends('layouts.app') 
 
 @section('title', 'Order Placed!')
 
@@ -28,8 +25,16 @@
                 opacity: 1;
             }
         }
+        .total-cost {
+            color: #ff0000; /* Red color */
+            font-size: 24px; /* Larger font size */
+            font-weight: bold; /* Bold text */
+            margin-top: 20px; /* Space above the text */
+        }
     </style>
+
     <h1 style="color: green; font-size: 48px; margin-top: 20px;">Order Placed!</h1>
+    <p class="total-cost">Total Cost: ${{ number_format($totalCost, 2) }}</p>
     <a href="{{ route('shop.home') }}" class="btn btn-primary" style="margin-top: 20px;">Back to Home</a>
 </div>
 

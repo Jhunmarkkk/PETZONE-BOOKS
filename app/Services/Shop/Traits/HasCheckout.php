@@ -1,19 +1,21 @@
 <?php
+
 namespace App\Services\Shop\Traits;
 
 use App\Exceptions\InvalidCost;
 use App\Support\Cost\Contract\CostInterface;
+use Illuminate\Support\Facades\Log;
 
 trait HasCheckout {
-    /**
-     * Total cost validation
-     *
-     * @param CostInterface $cost
-     * @return void
-     */
     public function validationCost(CostInterface $cost) {
-        if ($cost->getTotalCost() <= 1) {
-            throw new InvalidCost("Invalid Cost!");
+        Log::info('Validating cost'); // Debugging log
+
+        $totalCost = $cost->getTotalCost();
+        Log::info('Total cost: ' . $totalCost); // Debugging log
+
+        if ($totalCost <= 0) {
+            Log::error('Invalid cost: ' . $totalCost); // Debugging log
+            throw new InvalidCost('Invalid Cost!');
         }
-    }    
+    }
 }

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model{
     use HasFactory;
 
-    protected $fillable = ['user_id' , 'amount' , 'res_num' , 'status'];
+    public $timestamps = false; // Disable timestamps
+    
+    protected $fillable = ['customer_id' , 'price', 'date_placed'];
 
     /**
      * 1TON relationship between order and user
@@ -34,8 +36,11 @@ class Order extends Model{
      * @return array|null
      */
     public function products(){
-        return $this->belongsToMany(Product::class)->withPivot('quantity');;
+        // return $this->belongsToMany(Product::class)->withPivot('quantity');;
+        return $this->belongsToMany(Product::class, 'order_product', 'order_id', 'product_id');
+        
     }
+    
 }
 
 

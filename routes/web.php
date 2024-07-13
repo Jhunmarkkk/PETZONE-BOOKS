@@ -40,7 +40,7 @@ Route::prefix('')->group(function(){
     });
     /* For checkout */
     Route::prefix('/checkout')->group(function(){
-        Route::get('' , [CheckoutController::class , 'checkoutForm'])->name('shop.checkout.index');
+        Route::get('/checkout', [CheckoutController::class, 'checkoutForm'])->name('shop.checkout.index');
     });
 });
 
@@ -127,5 +127,3 @@ Route::middleware(['web'])->group(function () {
 
 });
 
-
-Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('shop.checkout.process'); // eto bagong lagay mga mhie

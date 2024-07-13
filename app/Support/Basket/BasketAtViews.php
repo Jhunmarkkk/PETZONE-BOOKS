@@ -72,4 +72,10 @@ class BasketAtViews{
         // For example, you might clear the session or database entries
         session()->forget('cart'); // Example for session-based cart
     }
+
+    public function getProductQuantity($productId) {
+        // Assuming you have a way to get the quantity of a product in the cart
+        $product = $this->selectedProducts()->where('id', $productId)->first();
+        return $product ? $product->quantity : 0;
+    }
 }

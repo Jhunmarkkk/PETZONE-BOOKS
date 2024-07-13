@@ -1,4 +1,4 @@
-VIEWING NG SINGLE PRODUCT
+VIEWING NG SINGLE PRODUCT 
 
 @extends('layouts.app')
 

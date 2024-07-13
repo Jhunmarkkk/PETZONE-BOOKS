@@ -1,4 +1,4 @@
-<?PhP 
+<?php
 namespace App\Support\Cost;
 
 use App\Support\Cost\Contract\CostInterface;
@@ -49,4 +49,3 @@ class ShippingCost implements CostInterface{
         return array_merge($this->cost->getSummary() , [$this->description() => $this->getCost()]);
     }
 }
-

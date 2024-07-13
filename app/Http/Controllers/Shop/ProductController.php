@@ -1,11 +1,10 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Services\Shop\Traits\HasProduc as ShopHasProduct; // Fixed typo in trait import
-use App\Models\Review; // Import the Review model
 use Illuminate\Http\Request;
 
 class ProductController extends Controller{
@@ -32,10 +31,7 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product){
-        // Fetch reviews for the current product
-        $reviews = Review::where('product_id', $product->id)->get();
-
-        // Return the view with the product and its reviews
-        return view('frontend.single-product', compact('product', 'reviews'));
+        // Return the view with the product
+        return view('frontend.single-product', compact('product'));
     }
 }

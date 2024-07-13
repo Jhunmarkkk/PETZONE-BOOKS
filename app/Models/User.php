@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Support\Coupon\Traits\HasCouponable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
