@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryChartController;
 use App\Http\Controllers\Shop\ReviewController;
 use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\InfinityScrollController;
 
 /** Book shop routes **/
 Route::prefix('')->group(function(){
@@ -41,6 +42,7 @@ Route::prefix('')->group(function(){
     /* For checkout */
     Route::prefix('/checkout')->group(function(){
         Route::get('/checkout', [CheckoutController::class, 'checkoutForm'])->name('shop.checkout.index');
+        Route::post('/process', [CheckoutController::class, 'processCheckout'])->name('shop.checkout.process');
     });
 });
 
@@ -105,7 +107,6 @@ Route::prefix('/charts')->group(function(){
 
     });
 
-
     /* For orders */
     Route::prefix('/orders')->group(function(){
         Route::get('' , [OrderController::class , 'index'])->name('admin.orders.index');
@@ -127,3 +128,6 @@ Route::middleware(['web'])->group(function () {
 
 });
 
+// homepage infinity scroll
+// Route::get('/', [MainController::class, 'home'])->name('shop.home');
+// Route::get('/fetchDiscountedBooks', [InfinityScrollController::class, 'fetchDiscountedBooks'])->name('fetch.discounted.books');

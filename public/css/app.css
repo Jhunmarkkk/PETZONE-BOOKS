@@ -27,3 +27,13 @@ button#edit-quantity{padding: 9px 28px;border-radius: 40px;background: black;col
 #margin-0{margin: 0px;}
 #popular-c{background: #e5e5e5;padding: 45px 0 45px;}
 #margin-t-200{margin-top: 200px}
+
+.autocomplete-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background-color: #f0f0f0;
+}

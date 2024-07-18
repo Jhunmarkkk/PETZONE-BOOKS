@@ -7,6 +7,10 @@ use App\Models\Product;
 use App\Services\Shop\Traits\HasProduc as ShopHasProduct; // Fixed typo in trait import
 use Illuminate\Http\Request;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use App\Support\Basket\BasketAtViews;
+
 class ProductController extends Controller{
     use ShopHasProduct; // Import the corrected trait
 
@@ -20,8 +24,34 @@ class ProductController extends Controller{
         // Fetch all products organized by category
         $all = $this->organizeProductsByCategory($request);
 
-        // Return the view with the products
-        return view('frontend.shop', compact('all'));
+
+
+
+        // Paginate products
+        $perPage = 6;
+        $page = $request->query('page', 1); // Get current page from query string, default to 1
+        $paginated = [];
+
+        foreach ($all as $categoryName => $products) {
+            $currentPageItems = Collection::make($products)
+                ->slice(($page - 1) * $perPage, $perPage)
+                ->values();
+
+            $paginated[$categoryName] = new LengthAwarePaginator(
+                $currentPageItems,
+                count($products),
+                $perPage,
+                $page,
+                ['path' => LengthAwarePaginator::resolveCurrentPath()]
+            );
+        }
+
+        if ($request->ajax()) {
+            return view('frontend.partials.products-list')->with('paginated', $paginated)->render();
+        }
+
+        // Return the view with the paginated products
+        return view('frontend.shop', compact('all', 'paginated'));
     }
 
     /**

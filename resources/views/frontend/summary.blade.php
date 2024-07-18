@@ -25,40 +25,9 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#btn-summary').click(function(event) {
-            event.preventDefault();
-
-            var products = [];
-            var quantities = {};
-            $('#checkout-form input[name="products[]"]').each(function() {
-                products.push($(this).val());
-            });
-            $('#checkout-form input[name^="quantities"]').each(function() {
-                var productId = $(this).attr('name').match(/\d+/)[0];
-                quantities[productId] = $(this).val();
-            });
-
-            $.ajax({
-                url: '{{ route("api.checkout.process") }}',
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer {{ auth()->user()->createToken("API Token")->plainTextToken }}',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                data: {
-                    products: products,
-                    quantities: quantities
-                },
-                success: function(response) {
-                    window.location.href = '{{ route("shop.checkout.index") }}?total_cost=' + response.total_cost;
-                },
-                error: function(xhr) {
-                    alert('Error placing order: ' + xhr.responseText);
-                }
-            });
-        });
-    });
+    var checkoutProcessUrl = "{{ route('api.checkout.process') }}";
+    var checkoutRedirectUrl = "{{ route('shop.checkout.index') }}";
+    var apiToken = "{{ Auth::user()->api_token }}";
+    var csrfToken = "{{ csrf_token() }}";
 </script>
-
-
+<script src="{{ asset('js/summary.js') }}"></script>

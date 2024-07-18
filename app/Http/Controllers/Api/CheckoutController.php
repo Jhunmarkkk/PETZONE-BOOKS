@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Api;
 
@@ -11,12 +11,20 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Support\Cost\ShippingCost;
 use App\Support\Cost\Contract\CostInterface;
+use App\Support\Basket\BasketAtViews;
 
 class CheckoutController extends Controller {
-    public function __construct(private CostInterface $cost) {}
+    private $basketAtViews;
+    private $cost;
+
+    public function __construct(BasketAtViews $basketAtViews, CostInterface $cost) {
+        $this->basketAtViews = $basketAtViews;
+        $this->cost = $cost;
+    }
 
     public function processCheckout(Request $request) {
         Log::info('API processCheckout called');
+        Log::info('Request data:', $request->all());
 
         // Validate the request
         $request->validate([
@@ -46,10 +54,16 @@ class CheckoutController extends Controller {
             $order->products()->attach($productId, ['quantity' => $quantity]);
         }
 
-        // Clear the user's cart (assuming you have a method to do this)
+        // Clear the user's cart
         $this->clearCart($user);
 
-        return response()->json(['message' => 'Order placed successfully', 'order_id' => $order->id, 'total_cost' => $totalCostWithShipping], 200);
+        // Return a JSON response with a redirect URL
+        return response()->json([
+            'message' => 'Order placed successfully',
+            'order_id' => $order->id,
+            'total_cost' => $totalCostWithShipping,
+            'redirect' => route('shop.checkout.index', ['total_cost' => $totalCostWithShipping])
+        ], 200);
     }
 
     private function calculateTotalCost($productIds, $quantities) {
@@ -60,11 +74,6 @@ class CheckoutController extends Controller {
             $totalCost += $product->price * $quantity;
         }
         return $totalCost;
-    }
-
-    private function getProductQuantity($productId) {
-        // Assuming you have a method to get the quantity of a product in the cart
-        return app('App\Support\Basket\BasketAtViews')->getProductQuantity($productId);
     }
 
     private function createOrder($totalCost, $user) {
@@ -79,8 +88,7 @@ class CheckoutController extends Controller {
     }
 
     private function clearCart($user) {
-        // Assuming you have a method to clear the user's cart
-        // This method should be implemented in your BasketAtViews or similar class
-        app('App\Support\Basket\BasketAtViews')->clear();
+        Log::info('Clearing cart'); // Debugging log
+        $this->basketAtViews->clear(); // Assuming you have a clear method in BasketAtViews
     }
 }

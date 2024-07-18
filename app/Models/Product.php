@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Exceptions\QuantityExceededException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+//search using algolia
+use Laravel\Scout\Searchable;
+
 
 class Product extends Model{
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $guarded = [];
 
