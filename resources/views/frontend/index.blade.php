@@ -6,6 +6,12 @@
 
 @section('content')
 
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Offer books start -->
 <section id="special-offer" class="bookshelf">
     <div class="section-header align-center">

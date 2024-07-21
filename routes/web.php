@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryChartController;
 use App\Http\Controllers\Shop\ReviewController;
 use App\Http\Controllers\Admin\ChartController;
-use App\Http\Controllers\InfinityScrollController;
 
 /** Book shop routes **/
 Route::prefix('')->group(function(){
@@ -128,6 +127,12 @@ Route::middleware(['web'])->group(function () {
 
 });
 
+
+// Route::get('/', 'InfinityScrollController@index')->name('shop.home');
+// Route::get('/fetchDiscountedBooks', 'InfinityScrollController@fetchDiscountedBooks')->name('fetch.discounted.books');
+
 // homepage infinity scroll
 // Route::get('/', [MainController::class, 'home'])->name('shop.home');
 // Route::get('/fetchDiscountedBooks', [InfinityScrollController::class, 'fetchDiscountedBooks'])->name('fetch.discounted.books');
+
+Route::get('/products', [ShopProductController::class, 'index'])->name('shop.products.index');

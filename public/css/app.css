@@ -37,3 +37,12 @@ button#edit-quantity{padding: 9px 28px;border-radius: 40px;background: black;col
 .autocomplete-item:hover {
     background-color: #f0f0f0;
 }
+
+.profile-placeholder {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes it circular */
+    background-color: #ccc; /* Placeholder color */
+    display: inline-block; /* Aligns with the label */
+    margin-left: 5px; /* Space between the circle and the label */
+}

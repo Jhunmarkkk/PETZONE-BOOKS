@@ -1,36 +1,36 @@
-var currentPage = 1;
-var loading = false;
-var lastPage = false;
-var scrollUpThreshold = 50; // Adjust threshold for faster triggering
-
-function loadProducts(page) {
-    $.ajax({
-        url: "/api/products", // Use the correct API endpoint
-        data: { page: page },
-        success: function(response) {
-            if (response) {
-                $('#infinite-scroll-placeholder').append(response);
-                loading = false;
-            } else {
-                lastPage = true;
-            }
-        },
-        error: function(xhr) {
-            console.error('Error loading products:', xhr);
-            loading = false;
-        }
-    });
-}
-
 $(document).ready(function() {
-    // Initial load with a small number of products
-    loadProducts(currentPage);
+    var currentPage = 1;
+    var loading = false;
+    var lastPage = false;
+    var scrollUpThreshold = 100; // Pixels from bottom where scroll-up will trigger
+    var debounceTimeout;
 
-    $(window).scroll(function() {
+    function loadMoreProducts() {
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - scrollUpThreshold && !loading && !lastPage) {
             loading = true;
             currentPage++;
-            loadProducts(currentPage);
+
+            $.ajax({
+                url: shopProductsIndexRoute,
+                data: { page: currentPage },
+                dataType: 'html', // Ensure the response is treated as HTML
+                success: function(response) {
+                    if (response.trim()) {
+                        $('#infinite-scroll-placeholder').append(response);
+                        loading = false;
+                    } else {
+                        lastPage = true;
+                    }
+                },
+                error: function() {
+                    loading = false; // Reset loading on error
+                }
+            });
         }
+    }
+
+    $(window).scroll(function() {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(loadMoreProducts, 200); // Debounce time in milliseconds
     });
 });

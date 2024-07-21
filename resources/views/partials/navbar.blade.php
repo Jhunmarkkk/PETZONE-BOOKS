@@ -43,8 +43,21 @@ USER POV
                                     <li class="menu-item"><a href="#" class="nav-link" data-effect="Contact" id="user-status">Guest</a></li>
                                 @endguest
                                 @auth
-                                    <li class="menu-item"><a class="nav-link" data-effect="Contact"></a></li>
-                                    <li class="menu-item"><a href="{{ route('my-panel') }}" class="nav-link" data-effect="Contact" id="user-status">{{ Auth::user()->name }}</a></li>
+
+                                                <li class="menu-item"><a class="nav-link" data-effect="Contact"></a></li>
+
+                                                @if(Auth::user()->image_path)
+                                                        <img src="{{ asset('storage/' . Auth::user()->image_path) }}" alt="Profile Image" width="50" height="50" class="rounded-circle" style="margin-left: 5px;">
+                                                    @else
+                                                        <div class="profile-placeholder" style="display: inline-block; margin-left: 1px;"></div>
+                                                    @endif
+                                                </a>
+                                                
+                                    <li class="menu-item"><a href="{{ route('my-panel') }}" class="nav-link" data-effect="Contact" id="user-status">{{ Auth::user()->name }}</a>
+
+
+                                </li>
+
                                 @endauth
                             </ul>
                             <div class="hamburger">

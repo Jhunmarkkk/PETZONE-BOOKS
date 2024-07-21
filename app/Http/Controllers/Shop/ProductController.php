@@ -1,12 +1,11 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Services\Shop\Traits\HasProduc as ShopHasProduct; // Fixed typo in trait import
+use App\Services\Shop\Traits\HasProduc as ShopHasProduct;
 use Illuminate\Http\Request;
-
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use App\Support\Basket\BasketAtViews;
@@ -23,9 +22,6 @@ class ProductController extends Controller{
     public function index(Request $request){
         // Fetch all products organized by category
         $all = $this->organizeProductsByCategory($request);
-
-
-
 
         // Paginate products
         $perPage = 6;
@@ -47,12 +43,13 @@ class ProductController extends Controller{
         }
 
         if ($request->ajax()) {
-            return view('frontend.partials.products-list')->with('paginated', $paginated)->render();
+            return view('frontend.partials.products-list', compact('paginated'))->render();
         }
 
         // Return the view with the paginated products
         return view('frontend.shop', compact('all', 'paginated'));
     }
+
 
     /**
      * Display the specified product.
@@ -61,7 +58,7 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product){
-        // Return the view with the product
+        // Return the view with the product only
         return view('frontend.single-product', compact('product'));
     }
 }

@@ -1,44 +1,73 @@
-@extends('layouts.app')
+@extends('layout')
 
-@section('title' , 'Login')
+@section('extra-css')
+<link rel="stylesheet" href="{{ asset('css/login-register.css') }} ">
 
 @section('content')
-<!-- login area start -->
-    <div class="login-area login-s2">
-        <div class="container">
-            <div class="login-box ptb--100">
-                <form action="{{ route('login') }}" method="POST">
-                @csrf
-                    <div class="login-form-head">
-                        <h4>Log in</h4>
+<main class="login-form">
+
+    <div class="form-contain">
+        <div class="huh-log ">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="login-container">
+                        {{-- <div class="">Login</div> --}}
+                        <div class="card-body">
+
+                            <form action="{{ route('api.login') }}" method="POST" id="handleAjax">
+                                @csrf
+
+                                <div id="errors-list"></div>
+
+                                <div class="input_box form-group row">
+                                    <label for="email_address" class="col-md-3 col-form-label text-md-right"></label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="email_address" class="form-control" name="email"
+                                            placeholder="E-mail" required autofocus>
+                                        @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="input_box form-group row">
+                                    <label for="password" class="col-md-3 col-form-label text-md-right"></label>
+                                    <div class="col-md-6">
+                                        <input type="password" id="password" class="form-control" name="password"
+                                            placeholder="Password" required>
+                                        @if ($errors->has('password'))
+                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="contain">
+                                    <button type="submit" class="login-btn ">
+                                        Login
+                                    </button>
+                                </div>
+
+                                <div class="reg">
+                                    <p>
+                                        Don't have an account yet?
+                                    </p>
+
+                                    <p>
+                                        <a class="tis nav-link" href="{{ route('register') }}">Register</a>
+                                    </p>
+                                </div>
+                            </form>
+
+                        </div>
                     </div>
-                    <div class="login-form-body">
-                        <div class="form-gp">
-                            <input name="email" type="email" placeholder="Email Address">
-                            @error('email')
-                                <span class="valid-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror  
-                        </div>
-                        <div class="form-gp">
-                            <input name="password" type="password" placeholder="Password">
-                            @error('password')
-                                <span class="valid-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror  
-                        </div>
-                        <div class="submit-btn-area">
-                            <button type="submit">Login</button>
-                        </div>
-                        <div class="form-footer text-center mt-5">
-                            <p class="text-muted">Don't have an account? <a href="{{ route('register') }}">Register</a></p>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-<!-- login area end -->
+
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/login.js') }}"></script>
 @endsection

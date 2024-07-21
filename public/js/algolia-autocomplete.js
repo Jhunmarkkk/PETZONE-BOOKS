@@ -1,5 +1,4 @@
 (function(){
-    // ito din papalitan ng sariling app id and key same nung nasa .env
     var client = algoliasearch('PYK3LQW0S1', '056f3f57cd7da44437eceab4a03e28d4');
     var index = client.initIndex('products');
     console.log(index);

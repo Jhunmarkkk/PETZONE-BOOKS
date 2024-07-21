@@ -7,65 +7,57 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
-class RegisterController extends Controller{
+class RegisterController extends Controller
+{
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'phone_number' => ['required', 'string', 'max:20'],
+            'address' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'same:confirm_password'],
+            'image_path' => ['nullable', 'image', 'max:2048'],
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
     protected function create(array $data)
     {
+        $imagePath = null;
         if (isset($data['image_path'])) {
             $imagePath = $data['image_path']->store('profile_images', 'public');
-            $imagePath = str_replace('profile_images', '', $imagePath);
-        } else {
-            $imagePath = null;
         }
 
+        // Create the user with the role set to 'user'
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone_number' => $data['phone_number'],
+            'address' => $data['address'],
             'password' => Hash::make($data['password']),
             'image_path' => $imagePath,
+            'role' => 'user', // Set the role to 'user'
+        ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        return response()->json([
+            'status' => true,
+            'redirect' => route('shop.products.index'), // Adjust this route as necessary
+            'message' => 'Successfully registered!'
         ]);
     }
 }
