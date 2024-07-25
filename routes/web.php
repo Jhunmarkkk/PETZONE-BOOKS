@@ -99,12 +99,6 @@ Route::prefix('/admin')->group(function(){
         Route::get('/{expense}/edit' , [ExpensesController::class , 'edit'])->name('admin.expenses.edit');
         Route::put('/{expense}/update' , [ExpensesController::class , 'update'])->name('admin.expenses.update');
 });
-Route::prefix('/charts')->group(function(){
-        Route::get('/pie', [ChartController::class, 'pieChart'])->name('admin.charts.pie');
-        Route::get('/line', [ChartController::class, 'lineChart'])->name('admin.charts.line');
-        Route::get('/bar', [ChartController::class, 'barChart'])->name('admin.charts.bar');
-
-    });
 
     /* For orders */
     Route::prefix('/orders')->group(function(){
@@ -137,3 +131,33 @@ Route::get('admin/categories/data', [CategoryController::class, 'getData'])->nam
 Route::view('/admin/charts/bar', 'admin.charts.bar')->name('admin.charts.bar');
 Route::view('/admin/charts/line', 'admin.charts.line')->name('admin.charts.line');
 Route::view('/admin/charts/pie', 'admin.charts.pie')->name('admin.charts.pie');
+
+
+//expenses import csv
+Route::resource('expenses', ExpensesController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [ExpensesController::class, 'importCSV'])->name('import');
+
+
+//suppliers import csv
+Route::resource('suppliers', SupplierController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [SupplierController::class, 'importCSV'])->name('import');
+
+
+//categories import csv
+Route::resource('categories', CategoryController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [CategoryController::class, 'importCSV'])->name('import');
+
+
+//users import csv
+Route::resource('users', UserController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [UserController::class, 'importCSV'])->name('import');
+
+
+//product import csv
+Route::resource('products', productController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [productController::class, 'importCSV'])->name('import');

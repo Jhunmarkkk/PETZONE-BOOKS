@@ -208,7 +208,7 @@ class ExpensesController extends Controller
 
         // Handle image upload
         if ($image_filename) {
-            $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $image_filename;
+            $source_path = 'C:/xampp/htdocs/petzone-master/public/images/' . $image_filename;
             if (File::exists($source_path)) {
                 $destination_path = public_path('storage/images/' . $image_filename);
                 File::copy($source_path, $destination_path);

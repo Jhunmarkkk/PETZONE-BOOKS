@@ -151,4 +151,76 @@ class SupplierController extends Controller
             'prod_id' => 'required|numeric',
         ]);
     }
+
+    // import csv
+    public function importCSV(Request $request)
+    {
+        $request->validate([
+            'import_csv' => 'required',
+        ]);
+        //read csv file and skip data
+        $file = $request->file('import_csv');
+        $handle = fopen($file->path(), 'r');
+
+        //skip the header row
+        fgetcsv($handle);
+
+        $chunksize = 25;
+        while(!feof($handle))
+        {
+            $chunkdata = [];
+
+            for($i = 0; $i<$chunksize; $i++)
+            {
+                $data = fgetcsv($handle);
+                if($data === false)
+                {
+                    break;
+                }
+                $chunkdata[] = $data;
+            }
+
+            $this->getchunkdata($chunkdata);
+        }
+        fclose($handle);
+
+        return redirect()->route('suppliers.create')->with('success', 'Data has been added successfully.');
+    }
+
+    public function getchunkdata($chunkdata)
+{
+    foreach ($chunkdata as $column) {
+        // $expense_id = $column[0];
+        $Supplier_Name = $column[0];
+        $Contact_Number = $column[1];
+        $Address = $column[2];
+        $Product_ID = $column[3];
+        $Image_Path = $column[4];
+
+       //  $image_filename = $column[4];
+
+        // Create new expense
+        $suppliers = new Supplier();
+        // $expense->id = $expense_id;
+        $suppliers->supplier_name = $Supplier_Name;
+        $suppliers->contact_number = $Contact_Number;
+        $suppliers->address = $Address;
+       //  $products->demo_url = $payment;
+        $suppliers->prod_id = $Product_ID;
+
+        // Handle image upload
+        if ($Image_Path) {
+            $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $Image_Path;
+            if (File::exists($source_path)) {
+                $destination_path = public_path('storage/images/' . $Image_Path);
+                File::copy($source_path, $destination_path);
+                $suppliers->image_path = $Image_Path;
+            }
+        }
+
+        // dd($expense);
+        $suppliers->save();
+    }
+}
+
 }

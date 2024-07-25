@@ -5,6 +5,30 @@
 @section('content')
 <!-- Add user form start -->
 <div class="col-12 mt-5">
+
+{{-- import button --}}
+    <div class="container">
+        <div>
+            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="messages">
+                  @if (session('success'))
+                    <div class="alert alert-success">
+                      {{ session('success') }}
+                    </div>
+                  @endif
+                </div>
+                <div class="fields">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="import_csv" name="import_csv" accept=".csv">
+                        <label class="input-group-text" for="import_csv">Upload</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Import CSV</button>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <form id="supplierForm" action="{{ route('admin.suppliers.store')}}" method="POST" enctype="multipart/form-data">
         @csrf

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Services\Admin\Traits\HasCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller{
     use HasCategory;
@@ -69,25 +70,70 @@ class CategoryController extends Controller{
 
         return back()->with('simpleSuccessAlert' , 'Remove category successfully');
     }
+// import csv
+public function importCSV(Request $request)
+{
+    $request->validate([
+        'import_csv' => 'required',
+    ]);
+    //read csv file and skip data
+    $file = $request->file('import_csv');
+    $handle = fopen($file->path(), 'r');
 
-    // public function index()
-    // {
-    //     if (request()->ajax()) {
-    //         $categories = Category::query();
-    //         return DataTables::of($categories)
-    //             ->addColumn('action', function($row){
-    //                 $deleteForm = '<form action="'.route('admin.categories.destroy', $row->id).'" method="POST" id="prepare-form" style="display:inline;">
-    //                                 '.csrf_field().'
-    //                                 '.method_field('DELETE').'
-    //                                 <button type="submit" id="button-delete"><span class="ti-trash"></span></button>
-    //                                </form>';
-    //                 $editLink = '<a href="'.route('admin.categories.edit', $row->id).'" id="a-black"><span class="ti-pencil"></span></a>';
-    //                 return $deleteForm . ' | ' . $editLink;
-    //             })
-    //             ->make(true);
-    //     }
+    //skip the header row
+    fgetcsv($handle);
 
-    //     // Load the view without data for non-AJAX requests
-    //     return view('admin.frontend.categories.index');
-    // }
+    $chunksize = 25;
+    while(!feof($handle))
+    {
+        $chunkdata = [];
+
+        for($i = 0; $i<$chunksize; $i++)
+        {
+            $data = fgetcsv($handle);
+            if($data === false)
+            {
+                break;
+            }
+            $chunkdata[] = $data;
+        }
+
+        $this->getchunkdata($chunkdata);
+    }
+    fclose($handle);
+
+    return redirect()->route('suppliers.create')->with('success', 'Data has been added successfully.');
+}
+
+public function getchunkdata($chunkdata)
+{
+foreach ($chunkdata as $column) {
+    // $expense_id = $column[0];
+    $Website_Genre = $column[0];
+    $Category = $column[1];
+
+   //  $image_filename = $column[4];
+
+    // Create new expense
+    $categories = new Category();
+    // $expense->id = $expense_id;
+    $categories->slug = $Website_Genre;
+    $categories->title = $Category;
+
+    // Handle image upload
+   //  if ($Image_Path) {
+   //      $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $Image_Path;
+   //      if (File::exists($source_path)) {
+   //          $destination_path = public_path('storage/images/' . $Image_Path);
+   //          File::copy($source_path, $destination_path);
+   //          $categories->image_path = $Image_Path;
+   //      }
+   //  }
+
+    // dd($expense);
+    $categories->save();
+}
+}
+
+
 }

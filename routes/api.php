@@ -59,4 +59,4 @@ Route::prefix('/dashboard')->group(function(){
     Route::get('/pie-chart', [ChartController::class, 'pieChart'])->name('api.charts.pie');
     Route::get('/line-chart', [ChartController::class, 'lineChart'])->name('api.charts.line');
     Route::get('/bar-chart', [ChartController::class, 'barChart'])->name('api.charts.bar');
-});
+}); 
