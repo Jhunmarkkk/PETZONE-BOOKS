@@ -23,11 +23,14 @@ class ModifyOrdersTable extends Migration
             // Ensure price is an unsigned decimal
             $table->unsignedDecimal('price', 10, 0)->change();
 
-            // Ensure status is a nullable string with a maximum length of 100 characters
-            $table->string('status', 100)->nullable()->change();
+            // Check if the columns exist before adding them
+            if (!Schema::hasColumn('orders', 'status')) {
+                $table->string('status', 100)->default('Pending')->after('price');
+            }
 
-            // Ensure shipping is a nullable string with a maximum length of 255 characters
-            $table->string('shipping', 255)->nullable()->change();
+            if (!Schema::hasColumn('orders', 'shipping')) {
+                $table->string('shipping', 255)->default('Pending')->after('status');
+            }
 
             // Drop the existing timestamp columns
             $table->dropColumn(['date_placed', 'date_shipped']);

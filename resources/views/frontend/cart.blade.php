@@ -77,6 +77,3 @@ DITO YUNG ADD TO CART
 <!-- Shopping Cart End -->
 @endsection
 
-@section('scripts')
-<script src="{{ asset('js/cart.js') }}"></script>
-@endsection

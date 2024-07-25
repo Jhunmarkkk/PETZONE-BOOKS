@@ -55,8 +55,8 @@ class CheckoutController extends Controller {
         // Get the total cost
         $totalCost = $this->cost->getTotalCost();
 
-        // Create the order
-        $order = $this->createOrder($totalCost);
+        // Create the order with status and shipping
+        $order = $this->createOrder($totalCost, $request->input('status'), $request->input('shipping'));
 
         // Clear the cart
         $this->clearCart();
@@ -74,7 +74,7 @@ class CheckoutController extends Controller {
         $this->basketAtViews->clear(); // Assuming you have a clear method in BasketAtViews
     }
 
-    private function createOrder($totalCost) {
+    private function createOrder($totalCost, $status, $shipping) {
         $user = Auth::user();
 
         Log::info('Creating order for user: ' . $user->id . ' with total cost: ' . $totalCost); // Debugging log
@@ -84,6 +84,8 @@ class CheckoutController extends Controller {
             'customer_id' => $user->id,
             'price' => $totalCost,
             'date_placed' => Carbon::now(), // Add the current timestamp
+            'status' => $status, // Added status
+            'shipping' => $shipping, // Added shipping
         ]);
 
         // Attach products to the order

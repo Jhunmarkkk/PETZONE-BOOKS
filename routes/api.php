@@ -9,6 +9,7 @@ use App\Http\Controllers\InfinityScrollController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\ChartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,21 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/categories', [CategoryController::class, 'getCategories'])->name('api.categories.data');
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('api.categories.destroy');
 
+
 // API routes for login and registration
 Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
-Route::post('/login', [LoginController::class, 'login'])->name('api.login');
+Route::post('/login', [LoginController::class, 'attemptLogin'])->name('api.login');
+
+
+// Protect the shop route with authentication
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/shop', [ShopController::class, 'index'])->name('api.shop.products.index');
+});
+
+
+//api for charts
+Route::prefix('/dashboard')->group(function(){
+    Route::get('/pie-chart', [ChartController::class, 'pieChart'])->name('api.charts.pie');
+    Route::get('/line-chart', [ChartController::class, 'lineChart'])->name('api.charts.line');
+    Route::get('/bar-chart', [ChartController::class, 'barChart'])->name('api.charts.bar');
+});

@@ -15,9 +15,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function all()
+    public function all(Request $request)
     {
+        if ($request->ajax()) {
+            $users = User::paginate(10); // 10 items per page for AJAX requests
+            return response()->json($users);
+        }
+
         $users = User::paginate(10);
+
 
         return view('admin.frontend.users.list', compact('users'));
     }

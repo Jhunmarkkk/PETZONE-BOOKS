@@ -127,12 +127,13 @@ Route::middleware(['web'])->group(function () {
 
 });
 
-
-// Route::get('/', 'InfinityScrollController@index')->name('shop.home');
-// Route::get('/fetchDiscountedBooks', 'InfinityScrollController@fetchDiscountedBooks')->name('fetch.discounted.books');
-
-// homepage infinity scroll
-// Route::get('/', [MainController::class, 'home'])->name('shop.home');
-// Route::get('/fetchDiscountedBooks', [InfinityScrollController::class, 'fetchDiscountedBooks'])->name('fetch.discounted.books');
+Route::get('/my-orders', [OrderController::class, 'userOrders'])->name('my-orders');
 
 Route::get('/products', [ShopProductController::class, 'index'])->name('shop.products.index');
+
+Route::get('admin/categories/data', [CategoryController::class, 'getData'])->name('admin.categories.data');
+// Route::view('/charts', 'admin.charts.bar');
+
+Route::view('/admin/charts/bar', 'admin.charts.bar')->name('admin.charts.bar');
+Route::view('/admin/charts/line', 'admin.charts.line')->name('admin.charts.line');
+Route::view('/admin/charts/pie', 'admin.charts.pie')->name('admin.charts.pie');

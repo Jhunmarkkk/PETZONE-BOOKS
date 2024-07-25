@@ -1,63 +1,71 @@
 @extends('admin.layouts.app')
 
-@section('title' , 'Admin-Products')
+@section('title', 'Admin - Products')
 
 @section('content')
-<!-- Product list start -->
+
 <div class="main-content-inner">
     <div class="row">
-        <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Author</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th>Discount</th>
-                <th>Stock</th>
-                <!-- <th>Built</th> -->
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($products as $product)
-                <tr>
-                  <th>{{ $product->id }}</th>
-                  <th>{{ $product->title }}</th>
-                  <th>{{ $product->category->title }}</th>
-                  <th>{{ $product->author }}</th>
-                  <th>{{ substr($product->description , 0 , 15) . '...' }}</th>
-                  <th>
-                  <img src="{{ asset('images/products/' . $product->demo_url) }}" alt="Demo Image" width="160" height="160">
-                    <!-- |
-                    <a href="{{ $product->demo_url }}" download id="a-black"><span class="ti-download"></span></a> -->
-                  </th>
-                  <th>${{ $product->price }}</th>
-                  <th>{{ $product->percent_discount }}</th>
-                  <th>{{ $product->stock }}</th>
-                  <!-- <th>{{ $product->created_at }}</th> -->
-                  <th>
-                    <form action="{{ route('admin.products.destroy' , $product->id) }}" method="POST" id="prepare-form">
-                    @csrf
-                    @method('delete')
-                      <button type="submit" id="button-delete"><span class="ti-trash"></span></button>
-                    </form>
-                    |
-                    <a href="{{ route('admin.products.edit' , $product->id)}}" id="a-black"><span class="ti-pencil"></span></a>
-                  </th>
-                </tr>
-              @endforeach
-            </tbody>
-        </table>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
+        <div class="table-responsive">
+            <table id="ctable" class="table table-striped table-hover custom-table">
+                <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Author</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="products-table">
+                    @foreach($products as $product)
+                        <tr>
+                            <td>{{ $product->id }}</td>
+                            <td>{{ $product->title }}</td>
+                            <td>{{ $product->category->title }}</td>
+                            <td>{{ $product->author }}</td>
+                            <td>{{ Str::limit($product->description, 15) }}</td>
+                            <td>
+                                @if($product->demo_url)
+                                    <img src="{{ asset('images/products/' . $product->demo_url) }}" alt="Demo Image" width="50">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
+                            <td>${{ $product->price }}</td>
+                            <td>{{ $product->percent_discount }}%</td>
+                            <td>{{ $product->stock }}</td>
+                            <td>
+                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @for ($i = 0; $i < (10 - count($products)); $i++) <tr>
+                        <td colspan="10">&nbsp;</td>
+                        </tr>
+                        @endfor
+                </tbody>
+            </table>
+        <!-- Centered Pagination links -->
+        <div class="pagination-wrapper" style="display: flex; justify-content: center;">
             {{ $products->links() }}
-          </ul>
-        </nav>  
+        </div>
+        </div>
     </div>
 </div>
-<!-- Products list end -->
 @endsection

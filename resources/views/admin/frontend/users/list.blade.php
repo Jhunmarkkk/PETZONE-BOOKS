@@ -1,56 +1,66 @@
 @extends('admin.layouts.app')
 
-@section('title' , 'Admin-Users')
+@section('title', 'Admin - Users')
 
 @section('content')
-<!-- Users list start -->
 <div class="main-content-inner">
     <div class="row">
-        <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Number</th>
-                <th>Address</th>
-                <th>Image</th>
-                <!-- <th>Joined</th> -->
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($users as $user)
-                <tr>
-                  <th>{{ $user->id }}</th>
-                  <th>{{ $user->name }}</th>
-                  <th>{{ $user->email }}</th>
-                  <th>{{ $user->role }}</th>
-                  <th>{{ $user->phone_number }}</th>
-                  <th>{{ $user->address }}</th>
-                  <th>
-                  <img src="{{ asset('storage/' . $user->image_path) }}" alt="Profile Image" width="160" height="160">
-                  | </th>
-                  <!-- <th>{{ $user->created_at }}</th> -->
-                  <th>
-                    <form action="{{ route('admin.users.destroy' , $user->id ) }}" method="POST" id="prepare-form">
-                      @csrf
-                      @method('delete')
-                        <button type="submit" id="button-delete"><span class="ti-trash"></span></button>
-                    </form>
-                    <a href="{{ route('admin.users.edit' , $user->id) }}" id="a-black"><span class="ti-pencil"></span></a>
-                  </th>
-                </tr>
-              @endforeach
-            </tbody>
-        </table>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
+        <div class="table-responsive">
+        <table id="ctable" class="table table-striped table-hover custom-table">
+        <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+        <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Number</th>
+                        <th>Address</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table">
+                    @foreach($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role }}</td>
+                            <td>{{ $user->phone_number }}</td>
+                            <td>{{ $user->address }}</td>
+                            <td>
+                                @if($user->image_path)
+                                    <img src="{{ asset('storage/' . $user->image_path) }}" alt="Profile Image" width="50">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    @for ($i = 0; $i < (10 - count($users)); $i++) <tr>
+                    <td colspan="8">&nbsp;</td>
+                    </tr>
+                    @endfor
+                </tbody>
+            </table>
+                    <!-- Centered Pagination links -->
+        <div class="pagination-wrapper" style="display: flex; justify-content: center;">
             {{ $users->links() }}
-          </ul>
-        </nav>  
+        </div>
+        </div>
     </div>
 </div>
-<!-- Users list end -->
 @endsection

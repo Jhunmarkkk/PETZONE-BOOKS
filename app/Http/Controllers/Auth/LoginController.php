@@ -21,7 +21,11 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        \Log::info('Attempting login for: ', $request->only('email', 'password'));
+        $request->validate([
+            'email' => 'required|email', // Ensure email is required and valid
+            'password' => 'required|string|min:6', // Ensure password is required and at least 6 characters
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
@@ -33,7 +37,7 @@ class LoginController extends Controller
 
         return response()->json([
             'status' => false,
-            'errors' => ['email' => 'These credentials do not match our records.']
+            'errors' => ['email' => 'Invalid Email or Password. Please try again.']
         ], 422);
     }
 
@@ -49,7 +53,7 @@ class LoginController extends Controller
     {
         return response()->json([
             'status' => false,
-            'errors' => ['email' => 'These credentials do not match our records.']
+            'errors' => ['email' => 'Invalid Email or Password. Please try again.']
         ], 422);
     }
 }

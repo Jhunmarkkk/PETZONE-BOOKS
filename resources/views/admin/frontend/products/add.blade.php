@@ -3,10 +3,10 @@
 @section('title' , 'Admin-Add product')
 
 @section('content')
-{{-- Add product form start --}}
+
 <div class="col-12 mt-5">
     <div class="card">
-        <form action="{{ route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
+        <form id="addProductForm" action="{{ route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
         @csrf 
             <div class="card-body">
                 <div class="row">
@@ -54,5 +54,4 @@
         </form>
     </div>
 </div>
-{{-- Add product form end --}}
 @endsection

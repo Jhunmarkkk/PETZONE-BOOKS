@@ -6,7 +6,7 @@ $(function() {
         $(this).find("[type='submit']").html("Login...");
 
         $.ajax({
-            url: '/api/login', 
+            url: '/api/login', // Ensure this points to the API route
             data: $(this).serialize(),
             type: "POST",
             dataType: 'json',
@@ -24,8 +24,14 @@ $(function() {
             },
             error: function (xhr) {
                 $(e).find("[type='submit']").html("Login");
-                console.log(xhr.responseText); 
-                $("#errors-list").append("<div class='alert alert-danger'>An error occurred. Please try again.</div>");
+                var response = JSON.parse(xhr.responseText);
+                if (response.errors) {
+                    $.each(response.errors, function (key, val) {
+                        $("#errors-list").append("<div class='alert alert-danger'>" + val + "</div>");
+                    });
+                } else {
+                    $("#errors-list").append("<div class='alert alert-danger'>Invalid Email or Password. Please try again.</div>");
+                }
             }
         });
 

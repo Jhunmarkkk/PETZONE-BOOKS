@@ -8,47 +8,54 @@ use DB;
 
 class ChartController extends Controller
 {
+
+    // piechart
     public function pieChart()
-{
-    $result = DB::select(DB::raw("SELECT c.title AS category_title, COUNT(p.id) AS products_count FROM CATEGORIES c LEFT JOIN PRODUCTS p ON c.id = p.category_id GROUP BY c.id, c.title"));
-    $data = "";
-    foreach ($result as $val) {
-        $data .= "['" . $val->category_title . "', " . $val->products_count . "],";
-    }
-    $chartData = $data;
+    {
+        $result = DB::table('CATEGORIES as c')
+                    ->leftJoin('PRODUCTS as p', 'c.id', '=', 'p.category_id')
+                    ->select(DB::raw('c.title AS category_title, COUNT(p.id) AS products_count'))
+                    ->groupBy('c.id', 'c.title')
+                    ->get();
 
-    return view('admin.charts.pie', compact('chartData'));
-}
+        $labels = $result->pluck('category_title')->toArray(); // Extracting labels
+        $data = $result->pluck('products_count')->toArray(); // Extracting data
 
-public function lineChart()
-{
-    $result = DB::select(DB::raw("SELECT c.title AS category_title, COUNT(p.id) AS product_count, SUM(p.stock) AS total_stock FROM CATEGORIES c JOIN PRODUCTS p ON c.id = p.category_id GROUP BY c.title"));
-
-    $data = "";
-
-    foreach ($result as $val) {
-        // Push each row of data into the $data array
-        $data .= "['" . $val->category_title . "', " . $val->product_count . ", " . $val->total_stock . "],";
+        return response()->json(array('data' => $data, 'labels' => $labels));
     }
 
-    $chartData = $data;
-
-    // Pass the $chartData array to the view
-    return view('admin.charts.line', compact('chartData'));
-}
-
+    // linechart
+    public function lineChart()
+    {
+        $line = DB::table('ORDERS as o')
+                    ->join('ORDER_PRODUCT as op', 'o.id', '=', 'op.order_id')
+                    ->select(DB::raw("DATE_FORMAT(o.date_placed, '%M') AS month, SUM(o.price) AS total_sales"))
+                    ->groupBy(DB::raw("DATE_FORMAT(o.date_placed, '%M')"))
+                    ->orderBy(DB::raw("MONTH(o.date_placed)"))
+                    ->get();
+    
+        // Extracting labels and data correctly
+        $labels = $line->pluck('month')->toArray(); // Get month names as labels
+        $data = $line->pluck('total_sales')->toArray(); // Get total sales as data
+    
+        return response()->json(['data' => $data, 'labels' => $labels]);
+    }
+    
+    //barchart   
     public function barChart()
 {
-    $result = DB::select(DB::raw("SELECT c.title AS category_title, SUM(p.stock) AS total_stock FROM CATEGORIES c JOIN PRODUCTS p ON c.id = p.category_id GROUP BY c.title"));
-    $data = "";
-    foreach ($result as $val) {
-        $data .= "['" . $val->category_title . "', " . $val->total_stock . "],";
-    }
-    $chartData = $data;
+    $bar = DB::table('CATEGORIES as c')
+                ->join('PRODUCTS as p', 'c.id', '=', 'p.category_id')
+                ->join('ORDER_PRODUCT as op', 'p.id', '=', 'op.product_id')
+                ->join('ORDERS as o', 'op.order_id', '=', 'o.id')
+                ->groupBy('c.title')
+                ->orderBy('total_sales')
+                ->pluck(DB::raw('SUM(o.price) as total_sales'), 'c.title')
+                ->all();
 
-    return view('admin.charts.bar', compact('chartData'));
+                $labels = (array_keys($bar));
+
+                $data = array_values($bar);
+                return response()->json(array('data' => $data, 'labels' => $labels));
 }
-
-    
-
 }

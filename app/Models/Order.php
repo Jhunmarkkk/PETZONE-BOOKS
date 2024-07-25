@@ -10,7 +10,7 @@ class Order extends Model{
 
     public $timestamps = false; // Disable timestamps
     
-    protected $fillable = ['customer_id' , 'price', 'date_placed'];
+    protected $fillable = ['customer_id' , 'price', 'date_placed', 'status', 'shipping'];
 
     /**
      * 1TON relationship between order and user
@@ -36,11 +36,7 @@ class Order extends Model{
      * @return array|null
      */
     public function products(){
-        // return $this->belongsToMany(Product::class)->withPivot('quantity');;
         return $this->belongsToMany(Product::class, 'order_product', 'order_id', 'product_id');
-        
     }
     
 }
-
-

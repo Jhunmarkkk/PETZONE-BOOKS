@@ -3,10 +3,10 @@
 @section('title' , 'Admin-Edit product')
     
 @section('content')
-{{-- Edit product form start --}}
+
 <div class="col-12 mt-5">
     <div class="card">
-        <form action="{{ route('admin.products.update' , $product->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="editProductForm" action="{{ route('admin.products.update' , $product->id) }}" method="POST" enctype="multipart/form-data">
         @method('put')
         @csrf 
             <div class="card-body">
@@ -32,8 +32,8 @@
                         <input value="{{ $product->percent_discount }}" name="percent_discount" class="form-control" type="txt" placeholder="Percent">
                     </div>
                     <div class="col">
-                        <input value="#" name="demo_url" class="form-control" type="file">
-                        <a href="{{ config('urls.images_products_url') . $product->demo_url }}" id="current-demo">current demo</span></a>
+                        <input name="demo_url" class="form-control" type="file">
+                        <a href="{{ config('urls.images_products_url') . $product->demo_url }}" id="current-demo">current demo</a>
                     </div>
                 </div>
             </div>
@@ -56,6 +56,4 @@
         </form>
     </div>
 </div>
-{{-- Edit product form end --}}
 @endsection
-

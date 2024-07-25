@@ -16,10 +16,14 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function all() {
+    public function all(Request $request)
+    {
+        if ($request->ajax()) {
+            $suppliers = Supplier::paginate(10); // 10 items per page for AJAX requests
+            return response()->json($suppliers);
+        }
 
         $suppliers = Supplier::paginate(10);
-
         return view('admin.frontend.suppliers.list', compact('suppliers'));
     }
     /**

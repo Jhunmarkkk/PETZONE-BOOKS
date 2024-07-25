@@ -1,42 +1,25 @@
 @extends('admin.layouts.app')
-
-@section('title' , 'Admin-Charts piegraph')
+@extends('master')
+@section('title', 'Pie Chart')
 
 @section('content')
-  <style>
+<style>
     /* Center the pie chart */
-    #piechart-container {
-      margin: 0 auto;
-      text-align: center;
+    #chart-container {
+        margin: 0 auto;
+        text-align: right;
     }
-  </style>
+    /* #pieChart {
+        width: 100%; 
+        height: 500px; 
+    } */
+</style>
 
-  <div id="piechart-container">
-  <html>
-  <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Category', 'Product'],
-          <?php echo $chartData; ?>
-        ]);
+<div id="chart-container">
+    <canvas id="pieChart"></canvas>
+</div>
 
-        var options = {
-          title: 'Product Categories Chart',
-          is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-      }
-    </script>
-  </head>
-  <body>
-    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
-  </body>
-</html>
-  </div>
+@section('scripts')
+<script src="{{ asset('public/js/charts.js') }}"></script> <!-- Include your charts.js file -->
+@endsection
 @endsection

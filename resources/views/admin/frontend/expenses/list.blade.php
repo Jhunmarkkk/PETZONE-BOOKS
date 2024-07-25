@@ -1,63 +1,44 @@
-
 @extends('admin.layouts.app')
 
-@section('title' , 'Admin-Expenses')
+@section('title' , 'Admin-Add supplier')
 
 @section('content')
-<!-- Users list start -->
-<div class="main-content-inner">
-    <div class="row">
-        <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th>Id</th>
-                <th>Expense Name</th>
-                <th>Date</th>
-                <th>Expense Amount</th>
-                <th>Payment</th>
-                <th>Expense Image</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($expenses as $expense)
-                <tr>
-                  <td>{{ $expense->id }}</td>
-                  <td>{{ $expense->expense_name }}</td>
-                  <td>{{ $expense->expense_date }}</td>
-                  <td>{{ $expense->expense_amount }}</td>
-                  <td>{{ $expense->expense_payment }}</td>
-                  <td>
-                        @if ($expense->expense_img)
-                        <img src="{{ asset('storage/' . $expense->expense_img) }}" alt="Expense Image" width="160" height="160"> 
-                        @else
-                        No Image
-                        @endif
-                    |</td>
-                  <!-- <td>{{ $expense->created_at }}</td> -->
-                  <td>
-                    <form action="{{ route('admin.expenses.destroy' , $expense->id ) }}" method="POST" id="prepare-form">
-                      @csrf
-                      @method('delete')
-                        <button type="submit" id="button-delete"><span class="ti-trash"></span></button>
-                    </form>
-                    |
-                    <a href="{{ route('admin.expenses.edit' , $expense->id) }}" id="a-black"><span class="ti-pencil"></span></a>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-        </table>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
-            {{ $expenses->links() }}
-          </ul>
-        </nav>  
+<!-- Add user form start -->
+<div class="col-12 mt-5">
+    <div class="card">
+        <form id="supplierForm" action="{{ route('admin.suppliers.store')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <input name="supplier_name" type="text" class="form-control" placeholder="Supplier Name" aria-label="supplier_name">
+                    </div>
+                    <div class="col">
+                        <input name="contact_number" type="text" class="form-control" placeholder="Contact Number" aria-label="contact_number">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <input name="address" type="text" class="form-control" placeholder="Address" aria-label="address">
+                    </div>
+                    <div class="col">
+                        <input name="image_path" type="file" accept="image/*" aria-label="image_path">
+                    </div><br><br>
+                    <div class="col">
+                        <select name="prod_id" class="form-control" >
+                            @foreach($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->id }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div><br>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-primary" type="submit">Add Supplier</button>
+            </div>
+        </form>
     </div>
 </div>
-<!-- Pagination Links -->
-<div class="mt-3">
-    {{ $expenses->links() }}
-</div>
-<!-- Expenses list end -->
 @endsection

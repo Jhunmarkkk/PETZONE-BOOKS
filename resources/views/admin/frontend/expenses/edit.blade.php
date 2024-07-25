@@ -1,12 +1,12 @@
 @extends('admin.layouts.app')
 
-@section('title' , 'Admin-Edit expenses')
+@section('title' , 'Admin-Edit Expenses')
 
 @section('content')
 <!-- Edit expenses form start -->
 <div class="col-12 mt-5">
     <div class="card">
-        <form action="{{ route('admin.expenses.update' , $expense->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="expenseEditForm" action="{{ route('admin.expenses.update' , $expense->id) }}" method="POST" enctype="multipart/form-data">
         @method('put')
         @csrf
             <div class="card-body">
@@ -42,5 +42,4 @@
         </form>
     </div>
 </div>
-<!-- Edit expenses form end -->
 @endsection

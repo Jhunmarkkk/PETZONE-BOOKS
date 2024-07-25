@@ -46,7 +46,7 @@ class CheckoutController extends Controller {
         $totalCostWithShipping = $totalCost + $shippingCost->getCost();
 
         // Create the order
-        $order = $this->createOrder($totalCostWithShipping, $user);
+        $order = $this->createOrder($totalCostWithShipping, 'Pending', 'Pending');
 
         // Attach products to the order
         foreach ($request->products as $productId) {
@@ -76,14 +76,16 @@ class CheckoutController extends Controller {
         return $totalCost;
     }
 
-    private function createOrder($totalCost, $user) {
-        Log::info('Creating order for user: ' . $user->id . ' with total cost: ' . $totalCost);
+    private function createOrder($totalCost, $status, $shipping) {
+        Log::info('Creating order for user: ' . Auth::user()->id . ' with total cost: ' . $totalCost);
 
         // Create a new order
         return Order::create([
-            'customer_id' => $user->id,
+            'customer_id' => Auth::user()->id,
             'price' => $totalCost,
             'date_placed' => Carbon::now(),
+            'status' => $status,
+            'shipping' => $shipping,
         ]);
     }
 

@@ -17,8 +17,14 @@ class productController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function all(){
-        $products = Product::with('category')->paginate(10);
+    public function all(Request $request)
+    {
+        if ($request->ajax()) {
+            $products = Product::paginate(10); // 10 items per page for AJAX requests
+            return response()->json($products);
+        }
+
+        $products = Product::paginate(10);
 
         return view('admin.frontend.products.list' , compact('products'));
     }

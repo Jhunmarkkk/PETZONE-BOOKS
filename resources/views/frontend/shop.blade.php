@@ -26,12 +26,12 @@ DISPLAYING NG MGA BOOKS
         </div>
 
         <ul class="tabs">
-            @foreach ($all as $categoryName => $products)
+            @foreach ($paginated as $categoryName => $products)
                 <li data-tab-target="#{{$categoryName}}" class="{{($categoryName == 'All') ? 'active tab' : 'tab'}}">{{$categoryName}}</li>
             @endforeach
         </ul>
         <div class="container">
-            @foreach ($all as $categoryName => $products)
+            @foreach ($paginated as $categoryName => $products)
                 <div id="{{$categoryName}}" data-tab-content class="{{ ($categoryName == 'All') ? 'active' : ''}}">
                     <div class="row">
                         <div class="products-grid grid">
@@ -66,15 +66,5 @@ DISPLAYING NG MGA BOOKS
 <div id="infinite-scroll-placeholder">
     <div class="products-grid grid"></div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    var shopProductsIndexRoute = "{{ route('api.products.index') }}";
-</script>
-<script src="{{ asset('js/shop.js') }}"></script>
-<!-- Include AlgoliaSearch JS Client and autocomplete.js library -->
-<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
-<script src="{{ asset('js/algolia-autocomplete.js') }}"></script>
 
 @endsection

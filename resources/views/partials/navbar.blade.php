@@ -35,6 +35,7 @@ USER POV
                                                 <button type="submit" class="logout-btn">Logout</button>
                                             </form>
                                             <li><a href="{{ route('my-panel') }}">MyPanel</a></li>
+                                            <li><a href="{{ route('my-orders') }}" class="nav-link" data-effect="Orders">MyOrders</a></li>
                                         </ul>
                                     @endauth
                                 </li>

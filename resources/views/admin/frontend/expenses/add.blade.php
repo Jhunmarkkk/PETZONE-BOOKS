@@ -1,12 +1,11 @@
 @extends('admin.layouts.app')
 
-@section('title' , 'Admin-Add Expenses')
+@section('title', 'Admin-Add Expenses')
 
 @section('content')
-<!-- Add user form start -->
 <div class="col-12 mt-5">
     <div class="card">
-        <form action="{{ route('admin.expenses.store')}}" method="POST" enctype="multipart/form-data">
+        <form id="expenseForm" action="{{ route('admin.expenses.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="card-body">
                 <div class="row">
@@ -31,7 +30,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                            <input name="expense_img" type="file" accept="image/*" aria-label="expense_img">
+                        <input name="expense_img" type="file" accept="image/*" aria-label="expense_img">
                     </div>
                 </div>
             </div>
@@ -41,5 +40,4 @@
         </form>
     </div>
 </div>
-<!-- Add user form end -->
 @endsection
