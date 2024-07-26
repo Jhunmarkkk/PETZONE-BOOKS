@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Shop\BasketController;
+use App\Http\Controllers\Shop\ProductController as ShopProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,15 +28,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//api for showing products from UI
-Route::get('/products', [ProductController::class, 'index'])->name('api.products.index');
-Route::get('/api/products/{product}', [ProductController::class, 'show'])->name('api.products.show');
-Route::get('/categories', [ProductController::class, 'categories'])->name('api.products.categories');
+//API for showing products
+Route::get('', [ShopProductController::class, 'index'])->name('api.products.index');
+Route::get('/products/{product}', [ShopProductController::class, 'show'])->name('api.products.show');
+Route::get('/categories', [ShopProductController::class, 'categories'])->name('api.products.categories');
 
 
-//api for checkout
+//API routes for basket operations
+Route::get('/basket/add/{product}', [BasketController::class, 'add'])->name('api.basket.add');
+Route::delete('/basket/remove/{product}', [BasketController::class, 'remove'])->name('api.basket.remove');
+Route::put('/basket/update/quantity/{product}', [BasketController::class, 'updateQuantity'])->name('api.basket.update.quantity'); // Add this route
+Route::post('/basket/clear', [BasketController::class, 'clear'])->name('api.basket.clear'); // Add this route
+
+
+// API for checkout
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('api.checkout.process');
+    Route::post('/process', [CheckoutController::class, 'processCheckout'])->name('api.checkout.process');
+    Route::get('/checkout', [CheckoutController::class, 'checkoutForm'])->name('api.checkout.index'); // This should point to the view
+    // Route::get('/checkout', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
+});
+
+
+// API routes for admin products
+Route::prefix('/admin/products')->group(function() {
+    Route::get('/', [productController::class, 'all'])->name('api.admin.products.all');
+    Route::post('/', [productController::class, 'store'])->name('api.admin.products.store');
+    Route::get('/{product}', [productController::class, 'edit'])->name('api.admin.products.edit');
+    Route::put('/{product}', [productController::class, 'update'])->name('api.admin.products.update');
+    Route::delete('/{product}', [productController::class, 'destroy'])->name('api.admin.products.destroy');
+    Route::post('/import', [productController::class, 'importCSV'])->name('api.admin.products.import');
 });
 
 
@@ -48,13 +70,14 @@ Route::post('/register', [RegisterController::class, 'register'])->name('api.reg
 Route::post('/login', [LoginController::class, 'attemptLogin'])->name('api.login');
 
 
-// Protect the shop route with authentication
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/shop', [ShopController::class, 'index'])->name('api.shop.products.index');
-});
+/* For products */
+// Route::prefix('/products')->group(function(){
+//     Route::get('' , [ShopProductController::class , 'index'])->name('api.shop.products.index');
+//     Route::get('/{product}/show' , [ShopProductController::class , 'show'])->name('api.shop.products.show');
+// });
 
 
-//api for charts
+//API for charts
 Route::prefix('/dashboard')->group(function(){
     Route::get('/pie-chart', [ChartController::class, 'pieChart'])->name('api.charts.pie');
     Route::get('/line-chart', [ChartController::class, 'lineChart'])->name('api.charts.line');

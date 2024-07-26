@@ -25,8 +25,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    var checkoutProcessUrl = "{{ route('api.checkout.process') }}";
-    var checkoutRedirectUrl = "{{ route('shop.checkout.index') }}";
+    var checkoutProcessUrl = "{{ route('api.checkout.process') }}"; // API route for checkout process
+    var checkoutRedirectUrl = "{{ route('api.checkout.index') }}"; // Update this if you have a specific API route for checkout index
     var apiToken = "{{ Auth::user()->api_token }}";
     var csrfToken = "{{ csrf_token() }}";
 </script>

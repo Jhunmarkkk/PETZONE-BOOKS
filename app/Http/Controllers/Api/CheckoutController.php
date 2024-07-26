@@ -17,6 +17,12 @@ class CheckoutController extends Controller {
     private $basketAtViews;
     private $cost;
 
+
+    public function checkoutForm(Request $request) {
+        $totalCost = $request->query('total_cost', 0);
+        return view('frontend.checkout', ['totalCost' => $totalCost]);
+    }
+
     public function __construct(BasketAtViews $basketAtViews, CostInterface $cost) {
         $this->basketAtViews = $basketAtViews;
         $this->cost = $cost;
@@ -62,7 +68,7 @@ class CheckoutController extends Controller {
             'message' => 'Order placed successfully',
             'order_id' => $order->id,
             'total_cost' => $totalCostWithShipping,
-            'redirect' => route('shop.checkout.index', ['total_cost' => $totalCostWithShipping])
+            'redirect' => route('api.checkout.index', ['total_cost' => $totalCostWithShipping])
         ], 200);
     }
 

@@ -16,7 +16,7 @@ DITO YUNG ADD TO CART
                 <div class="col-lg-8">
                     @if($selectedProducts->isEmpty())
                         <p id="empty-basket">
-                            @lang('basket.empty basket' , ['link' => route('shop.products.index')])
+                            @lang('basket.empty basket' , ['link' => route('api.products.index')])
                         </p>
                     @else
                     <div class="shopping__cart__table">
@@ -38,7 +38,7 @@ DITO YUNG ADD TO CART
                                                 <h5>${{ $product->price }}</h5>
                                             </div>
                                         </td>
-                                        <form action="{{ route('shop.basket.update.quantity' , $product->id) }}" method="POST">
+                                        <form action="{{ route('api.basket.update.quantity' , $product->id) }}" method="POST">
                                         @method('put')
                                         @csrf
                                         <td class="quantity__item">
@@ -63,7 +63,7 @@ DITO YUNG ADD TO CART
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6" id="w-100">
                             <div class="continue__btn clear__btn" id="continue-sh">
-                                <a href="{{ route('shop.basket.clear') }}"></i>Clearing the cart</a>
+                                <a href="{{ route('api.basket.clear') }}">Clearing the cart</a>
                             </div>
                         </div>
                     </div>
@@ -76,4 +76,3 @@ DITO YUNG ADD TO CART
     </section>
 <!-- Shopping Cart End -->
 @endsection
-

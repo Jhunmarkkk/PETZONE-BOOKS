@@ -17,7 +17,6 @@ use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryChartController;
-use App\Http\Controllers\Shop\ReviewController;
 use App\Http\Controllers\Admin\ChartController;
 
 /** Book shop routes **/
@@ -115,9 +114,6 @@ Auth::routes();
 Route::middleware(['web'])->group(function () {
     Route::match(['get', 'post'], '/my-panel', [MyPanelController::class, 'index'])->name('my-panel');
     Route::post('/update-user', [MyPanelController::class, 'updateUser'])->name('update-user');
-
-    Route::post('/reviews', 'ReviewController@store')->name('reviews.store');
-    Route::get('/admin/reviews', 'Admin\ReviewController@index')->name('admin.reviews.list');
 
 });
 

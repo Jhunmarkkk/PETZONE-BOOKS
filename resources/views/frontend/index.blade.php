@@ -46,15 +46,6 @@
 </section>
 <!-- quote of the day end -->
 
-<!-- Product Details Modal -->
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div id="product-details">
-            <!-- Product details will be loaded here by jQuery -->
-        </div>
-    </div>
-</div>
 
 @endsection
 

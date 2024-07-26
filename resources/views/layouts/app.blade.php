@@ -35,4 +35,7 @@
 <script src="{{ asset('js/algolia-autocomplete.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/my-orders.js') }}"></script>
+
 @extends('layouts.footer')

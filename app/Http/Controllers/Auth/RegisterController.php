@@ -56,7 +56,7 @@ class RegisterController extends Controller
     {
         return response()->json([
             'status' => true,
-            'redirect' => route('shop.products.index'), // Adjust this route as necessary
+            'redirect' => route('api.products.index'), // Adjust this route as necessary
             'message' => 'Successfully registered!'
         ]);
     }

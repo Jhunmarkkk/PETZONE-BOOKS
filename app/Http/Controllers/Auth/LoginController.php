@@ -31,7 +31,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             return response()->json([
                 'status' => true,
-                'redirect' => route('shop.products.index'), // Redirect URL after successful login
+                'redirect' => route('api.products.index'), // Redirect URL after successful login
             ]);
         }
 
@@ -45,7 +45,7 @@ class LoginController extends Controller
     {
         return response()->json([
             'status' => true,
-            'redirect' => route('shop.products.index'),
+            'redirect' => route('api.products.index'),
         ]);
     }
 
