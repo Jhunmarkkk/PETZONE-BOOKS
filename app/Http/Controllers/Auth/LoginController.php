@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -22,16 +23,30 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|email', // Ensure email is required and valid
-            'password' => 'required|string|min:6', // Ensure password is required and at least 6 characters
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
         ]);
 
         $credentials = $request->only('email', 'password');
 
+        // Fetch the admin record based on the email
+        $admin = DB::table('admin')->where('email', $credentials['email'])->first();
+
+        // Check if the admin exists and verify the password
+        if ($admin && password_verify($credentials['password'], $admin->password)) {
+            // Log the admin in
+            Auth::loginUsingId($admin->admin_id);
+            return response()->json([
+                'status' => true,
+                'redirect' => route('admin.categories.index'), // Redirect to admin categories index
+            ]);
+        }
+
+        // Check if the credentials match a regular user account
         if (Auth::attempt($credentials)) {
             return response()->json([
                 'status' => true,
-                'redirect' => route('api.products.index'), // Redirect URL after successful login
+                'redirect' => route('api.products.index'),
             ]);
         }
 
