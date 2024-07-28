@@ -31,10 +31,10 @@
                             <td>{{ $order->date_placed ? $order->date_placed->format('Y-m-d') : 'N/A' }}</td>
                             <td>{{ $order->date_shipped ? $order->date_shipped->format('Y-m-d') : 'N/A' }}</td>
                             <td>
-                                <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary">
+                                <a href="{{ route('api.orders.edit', $order->id) }}" class="btn btn-primary">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
-                                <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('api.orders.destroy', $order->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">

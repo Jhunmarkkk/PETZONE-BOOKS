@@ -2,6 +2,16 @@
 
 @section('title' , 'Admin-Add User')
 @section('content')
+
+@if(session('customErrors'))
+  <div class="custom-alert custom-alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+      @foreach(session('customErrors') as $error)
+        {{ $error }} <br>
+      @endforeach 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 <div class="col-12 mt-5">
 
 {{-- import button --}}

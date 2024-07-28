@@ -30,7 +30,7 @@
     </div>
 
     <div class="card">
-        <form id="supplierForm" action="{{ route('admin.suppliers.store')}}" method="POST" enctype="multipart/form-data">
+        <form id="supplierForm" action="{{ route('api.suppliers.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="card-body">
                 <div class="row">

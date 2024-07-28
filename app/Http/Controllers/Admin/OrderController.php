@@ -58,7 +58,7 @@ class OrderController extends Controller{
         $order->date_shipped = $request->input('date_shipped');
         $order->save();
 
-        return redirect()->route('admin.orders.index')->with('simpleSuccessAlert', 'Order added successfully');
+        return redirect()->route('api.orders.index')->with('simpleSuccessAlert', 'Order added successfully');
     }
 
     /**
@@ -98,7 +98,7 @@ class OrderController extends Controller{
         $order->date_shipped = $request->input('date_shipped');
         $order->save();
 
-        return redirect()->route('admin.orders.all')->with('simpleSuccessAlert', 'Order updated successfully');
+        return redirect()->route('api.orders.all')->with('simpleSuccessAlert', 'Order updated successfully');
     }
 
     /**

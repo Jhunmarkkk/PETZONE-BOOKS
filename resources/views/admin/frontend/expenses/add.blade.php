@@ -29,7 +29,7 @@
     </div>
 
     <div class="card">
-        <form id="expenseForm" action="{{ route('admin.expenses.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="expenseForm" action="{{ route('api.expenses.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="card-body">
                 <div class="row">

@@ -6,7 +6,7 @@
 <!-- Edit order form start -->
 <div class="col-12 mt-5">
     <div class="card">
-        <form id="orderEditForm" action="{{ route('admin.orders.update', $order->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="orderEditForm" action="{{ route('api.orders.update', $order->id) }}" method="POST" enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="card-body">

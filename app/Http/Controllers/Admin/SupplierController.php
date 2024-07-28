@@ -66,7 +66,7 @@ class SupplierController extends Controller
     $supplier->prod_id = $request->input('prod_id');
     $supplier->save();
 
-    return redirect()->route('admin.suppliers.all')->with('simpleSuccessAlert', 'Supplier created successfully');
+    return redirect()->route('api.suppliers.all')->with('simpleSuccessAlert', 'Supplier created successfully');
 }
     /**
      * Show form for editing the specified supplier.
@@ -108,7 +108,7 @@ class SupplierController extends Controller
     $supplier->prod_id = $request->input('prod_id');
     $supplier->save();
 
-    return redirect()->route('admin.suppliers.all')->with('simpleSuccessAlert', 'Supplier updated successfully');
+    return redirect()->route('api.suppliers.all')->with('simpleSuccessAlert', 'Supplier updated successfully');
 }
     /**
      * Remove specified user from storage.

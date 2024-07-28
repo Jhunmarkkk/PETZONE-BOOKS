@@ -3,6 +3,16 @@
 @section('title' , 'Admin-Edit user')
 
 @section('content')
+
+@if(session('customErrors'))
+  <div class="custom-alert custom-alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+      @foreach(session('customErrors') as $error)
+        {{ $error }} <br>
+      @endforeach 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 {{-- Edit user form start --}}
 <div class="col-12 mt-5">
     <div class="card">
@@ -50,4 +60,5 @@
         </form>
     </div>
 </div>
+
 @endsection

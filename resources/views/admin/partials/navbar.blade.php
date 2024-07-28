@@ -23,22 +23,22 @@
                             <li class="for-li">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-users"></i><span>Supplier Management</span></a>
                                 <ul class="collapse">
-                                    <li><a href="{{ route('admin.suppliers.all') }}">List</a></li>
-                                    <li><a href="{{ route('admin.suppliers.create') }}">Add</a></li>
+                                    <li><a href="{{ route('api.suppliers.all') }}">List</a></li>
+                                    <li><a href="{{ route('api.suppliers.create') }}">Add</a></li>
                                 </ul>
                             </li>
                             <li class="for-li">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-dollar"></i><span>Expenses Management</span></a>
                                 <ul class="collapse">
-                                    <li><a href="{{ route('admin.expenses.all') }}">List</a></li>
-                                    <li><a href="{{ route('admin.expenses.create') }}">Add</a></li>
+                                    <li><a href="{{ route('api.expenses.all') }}">List</a></li>
+                                    <li><a href="{{ route('api.expenses.create') }}">Add</a></li>
                                 </ul>
                             </li>
 
                             <li class="for-li">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-shopping-basket"></i><span>Order Management</span></a>
                                 <ul class="collapse">
-                                    <li><a href="{{ route('admin.orders.all') }}">Order</a></li>
+                                    <li><a href="{{ route('api.orders.all') }}">Order</a></li>
                                     <li><a href="{{ route('admin.order_product.index') }}">Ordered Products</a></li>
                                 </ul>
                             </li>

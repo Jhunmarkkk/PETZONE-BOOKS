@@ -6,7 +6,7 @@
 <!-- Edit user form start -->
 <div class="col-12 mt-5">
     <div class="card">
-        <form id="supplierEditForm" action="{{ route('admin.suppliers.update' , $supplier->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="supplierEditForm" action="{{ route('api.suppliers.update' , $supplier->id) }}" method="POST" enctype="multipart/form-data">
         @method('put')
         @csrf
             <div class="card-body">

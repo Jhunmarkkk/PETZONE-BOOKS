@@ -66,7 +66,7 @@ class ExpensesController extends Controller
             }
             $expense->save();
 
-        return redirect()->route('admin.expenses.all')->with('simpleSuccessAlert', 'Expense added successfully');
+        return redirect()->route('api.expenses.all')->with('simpleSuccessAlert', 'Expense added successfully');
     }
 
     /**
@@ -108,7 +108,7 @@ class ExpensesController extends Controller
         }
         $expense->save();
 
-        return redirect()->route('admin.expenses.all')->with('simpleSuccessAlert', 'Expense added successfully');
+        return redirect()->route('api.expenses.all')->with('simpleSuccessAlert', 'Expense added successfully');
     }
     /**
      * Remove the specified expense from storage.

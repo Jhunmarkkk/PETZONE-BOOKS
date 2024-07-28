@@ -6,8 +6,8 @@
 <!-- Edit expenses form start -->
 <div class="col-12 mt-5">
     <div class="card">
-        <form id="expenseEditForm" action="{{ route('admin.expenses.update' , $expense->id) }}" method="POST" enctype="multipart/form-data">
-        @method('put')
+        <form id="expenseEditForm" action="{{ route('api.expenses.update', $expense->id) }}" method="POST" enctype="multipart/form-data">
+        @method('PUT')
         @csrf
             <div class="card-body">
                 <div class="row">

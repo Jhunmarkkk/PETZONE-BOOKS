@@ -13,6 +13,9 @@ use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Shop\BasketController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ExpensesController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,3 +92,34 @@ Route::prefix('/dashboard')->group(function(){
     Route::get('/line-chart', [ChartController::class, 'lineChart'])->name('api.charts.line');
     Route::get('/bar-chart', [ChartController::class, 'barChart'])->name('api.charts.bar');
 }); 
+
+// API routes for ADMIN EXPENSES MANAGEMENT
+Route::prefix('/expenses')->group(function(){
+    Route::get('', [ExpensesController::class, 'all'])->name('api.expenses.all');
+    Route::post('', [ExpensesController::class, 'store'])->name('api.expenses.store');
+    Route::get('/create', [ExpensesController::class, 'create'])->name('api.expenses.create');
+    Route::get('/{expense}/edit', [ExpensesController::class, 'edit'])->name('api.expenses.edit');
+    Route::put('/{expense}/update', [ExpensesController::class, 'update'])->name('api.expenses.update');
+    Route::delete('/{expense}/remove', [ExpensesController::class, 'destroy'])->name('api.expenses.destroy');
+    Route::post('/import', [ExpensesController::class, 'importCSV'])->name('api.expenses.import');
+});
+
+// API routes for ADMIN SUPPLIERS MANAGEMENT
+Route::prefix('/suppliers')->group(function(){
+    Route::get('' , [SupplierController::class , 'all'])->name('api.suppliers.all');
+    Route::get('/create' , [SupplierController::class , 'create'])->name('api.suppliers.create');
+    Route::post('' , [SupplierController::class , 'store'])->name('api.suppliers.store');
+    Route::delete('/{supplier}/remove' , [SupplierController::class , 'destroy'])->name('api.suppliers.destroy');
+    Route::get('/{supplier}/edit' , [SupplierController::class , 'edit'])->name('api.suppliers.edit');
+    Route::put('/{supplier}/update' , [SupplierController::class , 'update'])->name('api.suppliers.update');
+});
+
+// API routes for ADMIN ORDERS MANAGEMENT
+Route::prefix('admin/orders')->group(function () {
+    Route::get('', [OrderController::class, 'all'])->name('api.orders.all');
+    Route::get('/create', [OrderController::class, 'create'])->name('api.orders.create');
+    Route::post('', [OrderController::class, 'store'])->name('api.orders.store');
+    Route::delete('/{order}/remove', [OrderController::class, 'destroy'])->name('api.orders.destroy');
+    Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('api.orders.edit');
+    Route::put('/{order}/update', [OrderController::class, 'update'])->name('api.orders.update');
+});
