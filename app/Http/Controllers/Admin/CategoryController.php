@@ -102,7 +102,7 @@ public function importCSV(Request $request)
     }
     fclose($handle);
 
-    return redirect()->route('suppliers.create')->with('success', 'Data has been added successfully.');
+    return redirect()->route('admin.categories.index')->with('success', 'Data has been added successfully.');
 }
 
 public function getchunkdata($chunkdata)

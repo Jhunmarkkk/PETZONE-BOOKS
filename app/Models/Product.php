@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Exceptions\QuantityExceededException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//search using algolia
+//search using algolia 
 use Laravel\Scout\Searchable;
 
 
@@ -21,7 +21,6 @@ class Product extends Model{
      */
     public function category(){
         return $this->belongsTo(Category::class);
-        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id');
     }
     
     /**
@@ -69,4 +68,3 @@ class Product extends Model{
         $this->decrement('stock' , $count);
     }
 }
-

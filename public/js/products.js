@@ -5,7 +5,7 @@ $(document).ready(function () {
     // Fetch and display products
     $.ajax({
         type: "GET",
-        url: "/api/products", 
+        url: "{{ route('api.products.index') }}",
         dataType: 'json',
         success: function (data) {
             console.log(data);
@@ -52,7 +52,7 @@ $(document).ready(function () {
         {
             $.ajax({
                 type: "DELETE",
-                url: "/api/products/" + id, 
+                url: "{{ route('api.products.destroy') }}/" + id, 
                 dataType: 'json',
                 success: function (response) {
                     alert("Product deleted successfully.");
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: $(this).attr('action'), 
+            url: "{{ route('api.products.store') }}",
             data: formData,
             contentType: false,
             processData: false,
@@ -116,7 +116,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: $(this).attr('action'), 
+            url: "{{ route('api.products.update', '') }}/" + $(this).data('id'),
             data: formData,
             contentType: false,
             processData: false,

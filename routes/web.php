@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryChartController;
 use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Admin\OrderProductController;
+use App\Http\Controllers\Admin\ProductStockController;
 
 /** Book shop routes **/
 Route::prefix('')->group(function(){
@@ -54,6 +56,8 @@ Route::prefix('/payment')->group(function(){
 
 /** Routes that has admin prefix **/
 Route::prefix('/admin')->group(function(){
+
+
     /* For categories */
     Route::prefix('/categories')->group(function(){
         Route::get('' , [CategoryController::class , 'index'])->name('admin.categories.index');
@@ -99,14 +103,29 @@ Route::prefix('/admin')->group(function(){
         Route::put('/{expense}/update' , [ExpensesController::class , 'update'])->name('admin.expenses.update');
 });
 
-    /* For orders */
-    Route::prefix('/orders')->group(function(){
-        Route::get('' , [OrderController::class , 'index'])->name('admin.orders.index');
-    });
-    /* For payments */
-    Route::prefix('/payments')->group(function(){
-        Route::get('' , [PaymentController::class , 'index'])->name('admin.payments.index');
-    });
+// For Orders
+Route::prefix('admin/orders')->group(function () {
+    Route::get('', [OrderController::class, 'all'])->name('admin.orders.all');
+    Route::get('/create', [OrderController::class, 'create'])->name('admin.orders.create');
+    Route::post('', [OrderController::class, 'store'])->name('admin.orders.store');
+    Route::delete('/{order}/remove', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
+    Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
+    Route::put('/{order}/update', [OrderController::class, 'update'])->name('admin.orders.update');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('order-products', [OrderProductController::class, 'index'])->name('orderProduct.index');
+    Route::get('order-products/{order}/{product}/edit', [OrderProductController::class, 'edit'])->name('orderProduct.edit');
+    Route::delete('order-products/{order}/{product}', [OrderProductController::class, 'destroy'])->name('orderProduct.destroy');
+});
+
+Route::get('order-products', [OrderProductController::class, 'index'])->name('admin.order_product.index');
+Route::get('order-products/{order}/{product}/edit', [OrderProductController::class, 'edit'])->name('admin.orderProduct.edit');
+Route::delete('order-products/{order}/{product}', [OrderProductController::class, 'destroy'])->name('admin.orderProduct.destroy');
+});
+
+Route::prefix('admin')->group(function () {
+Route::get('/product_stock', [ProductStockController::class, 'index'])->name('admin.product_stock.index');
 });
 
 /** Authentication routes **/
@@ -157,3 +176,9 @@ Route::post('import-users-csv', [UserController::class, 'importCSV'])->name('imp
 Route::resource('products', productController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
 Route::post('import-products-csv', [productController::class, 'importCSV'])->name('import.products');
+
+
+// deactivation
+// Temporarily remove the 'auth' middleware for testing
+Route::resource('users', UserController::class);
+Route::get('users/status/{user_id}/{status_code}', [UserController::class, 'updateStatus'])->name('users.status.update');

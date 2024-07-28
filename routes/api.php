@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //API for showing products
-Route::get('/products', [ShopProductController::class, 'index'])->name('api.products.index');
+Route::get('/', [ShopProductController::class, 'index'])->name('api.products.index');
 Route::get('/products/{product}', [ShopProductController::class, 'show'])->name('api.products.show');
 Route::get('/categories', [ShopProductController::class, 'categories'])->name('api.products.categories');
 
@@ -50,19 +50,19 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-// API routes for admin products
-Route::prefix('/admin/products')->group(function() {
-    Route::get('/' , [productController::class , 'all'])->name('api.admin.products.all');
-    Route::get('/', [productController::class, 'index'])->name('api.admin.products.index');
-    Route::post('/', [productController::class, 'store'])->name('api.admin.products.store');
-    Route::get('/{product}', [productController::class, 'edit'])->name('api.admin.products.edit');
-    Route::put('/{product}', [productController::class, 'update'])->name('api.admin.products.update');
-    Route::delete('/{product}', [productController::class, 'destroy'])->name('api.admin.products.destroy');
-    Route::post('/import', [productController::class, 'importCSV'])->name('api.admin.products.import');
+// API routes for ADMIN PRODUCT MANAGEMENT
+Route::prefix('/products')->group(function(){
+    Route::get('/' , [productController::class , 'all'])->name('api.products.all');
+    Route::post('/' , [productController::class , 'store'])->name('api.products.store');
+    Route::get('/create' , [productController::class , 'create'])->name('api.products.create');
+    Route::get('/{product}/edit' , [productController::class , 'edit'])->name('api.products.edit');
+    Route::put('/{product}/update' , [productController::class , 'update'])->name('api.products.update');
+    Route::delete('/{product}/remove' , [productController::class , 'destroy'])->name('api.products.destroy');
+    Route::get('{product}/download/demo' , [productController::class , 'downloadDemo'])->name('api.products.download.demo');
 });
 
 
-// API routes for user management
+// API routes for ADMIN USER MANAGEMENT
 Route::prefix('/users')->group(function() {
     Route::get('', [UserController::class, 'all'])->name('api.users.all');
     Route::get('/create' , [UserController::class , 'create'])->name('api.users.create');
@@ -73,20 +73,19 @@ Route::prefix('/users')->group(function() {
     Route::delete('/{user}', [UserController::class, 'destroy'])->name('api.users.destroy');
 });
 
-// API routes for admin/categories
+// API routes for ADMIN CATEGORIES
 Route::get('/categories', [CategoryController::class, 'getCategories'])->name('api.categories.data');
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('api.categories.destroy');
 
 
-// API routes for login and registration
+// API routes for LOGIN AND REGISTRATION
 Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
 Route::post('/login', [LoginController::class, 'attemptLogin'])->name('api.login');
 
 
-//API for charts
+//API for CHARTS
 Route::prefix('/dashboard')->group(function(){
     Route::get('/pie-chart', [ChartController::class, 'pieChart'])->name('api.charts.pie');
     Route::get('/line-chart', [ChartController::class, 'lineChart'])->name('api.charts.line');
     Route::get('/bar-chart', [ChartController::class, 'barChart'])->name('api.charts.bar');
 }); 
-

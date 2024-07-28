@@ -6,9 +6,9 @@
 
 <div class="col-12 mt-5">
     <div class="card">
-        <form id="editProductForm" action="{{ route('admin.products.update' , $product->id) }}" method="POST" enctype="multipart/form-data">
-        @method('put')
+        <form id="editProductForm" action="{{ route('api.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf 
+        @method('PUT')
             <div class="card-body">
                 <div class="row">
                     <div class="col">

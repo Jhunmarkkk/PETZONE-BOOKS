@@ -16,6 +16,12 @@
 
                         <div class="card-body">
 
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+
                             <form action="{{ route('api.login') }}" method="POST" id="handleAjax">
                                 @csrf
 

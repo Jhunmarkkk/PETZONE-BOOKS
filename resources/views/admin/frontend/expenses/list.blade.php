@@ -55,7 +55,7 @@
                 </tbody>
             </table>
                     <!-- Centered Pagination links -->
-        <div class="pagination-wrapper" style="display: flex; justify-content: right;">
+        <div class="pagination-wrapper" style="display: flex; justify-content: center;">
             {{ $expenses->links() }}
         </div>
         </div>

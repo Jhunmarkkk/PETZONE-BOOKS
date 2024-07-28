@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -116,6 +117,21 @@ class UserController extends Controller
         $user->image_path = $imagePath;
     }
     $user->save();
+
+// Handle admin role update
+if ($user->role === 'admin') {
+    // Fetch the user's email and password
+    $email = $user->email;
+    $password = $user->password;
+    // Insert or update in the admin table
+    DB::table('admin')->updateOrInsert(
+        ['email' => $email], // Find existing admin by email
+        ['password' => $password] // Update password
+    );
+} else {
+    // If the user is no longer an admin, remove from admin table
+    DB::table('admin')->where('email', $user->email)->delete();
+}
 
     return redirect()->route('admin.users.all')->with('simpleSuccessAlert', 'User updated successfully');
 }
@@ -242,5 +258,35 @@ class UserController extends Controller
              $user->save();
          }
      }
+
+
+     //  function for deact
+
+/**
+     * To update status of use
+     * @param  Integer $user_id
+     * @param  Integer $status_code
+     * @return Success Response.
+     */
+public function updateStatus($user_id, $status_code) {
+
+    try {
+        $update_user = User::whereId($user_id)->update([
+            'status'=> $status_code
+        ]);
+
+        // dd($update_user);
+        if($update_user){
+            return redirect()->route('admin.users.all')->with('success','User Status Updated Succesfully.');
+        }
+
+        return redirect()->route('admin.users.all')->with('success','Fail to Update User Status.');
+
+    } catch(\Throwable $th) {
+        throw $th;
+    }
+}
+
+
  
  }

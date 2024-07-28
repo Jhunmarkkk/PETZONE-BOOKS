@@ -51,7 +51,7 @@ class productController extends Controller{
 
         $this->doStore($validator);
 
-        return redirect()->route('api.admin.products.all')->with('simpleSuccessAlert' , 'New product added successfully');
+        return redirect()->route('api.products.all')->with('simpleSuccessAlert' , 'New product added successfully');
     }
 
     /**
@@ -73,12 +73,12 @@ class productController extends Controller{
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Product $product,Request $request){
+    public function update(Product $product, Request $request){
         $validator = $this->validateUpdateForm($request);
 
-        $this->doUpdate($product , $validator);
+        $this->doUpdate($product, $validator);
 
-        return redirect()->route('api.admin.products.all')->with('simpleSuccessAlert' , 'Product updated successfully');
+        return redirect()->route('api.products.all')->with('simpleSuccessAlert', 'Product updated successfully');
     }
 
     /**
@@ -111,12 +111,12 @@ class productController extends Controller{
             $products = Product::with('category'); // Eager loading the category
             return DataTables::of($products)
                 ->addColumn('action', function($row){
-                    $deleteForm = '<form action="'.route('api.admin.products.destroy', $row->id).'" method="POST" id="prepare-form" style="display:inline;">
+                    $deleteForm = '<form action="'.route('api.products.destroy', $row->id).'" method="POST" id="prepare-form" style="display:inline;">
                                     '.csrf_field().'
                                     '.method_field('DELETE').'
                                     <button type="submit" class="btn btn-danger"><span class="ti-trash"></span></button>
                                    </form>';
-                    $editLink = '<a href="'.route('api.admin.products.edit', $row->id).'" class="btn btn-primary"><span class="ti-pencil"></span></a>';
+                    $editLink = '<a href="'.route('api.products.edit', $row->id).'" class="btn btn-primary"><span class="ti-pencil"></span></a>';
                     return $deleteForm . ' | ' . $editLink;
                 })
                 ->addColumn('image', function($row){
