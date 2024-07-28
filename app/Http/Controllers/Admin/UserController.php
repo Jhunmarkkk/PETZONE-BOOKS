@@ -7,11 +7,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     /**
-     * Show users list
+     * Show users list 
      *
      * @return \Illuminate\Http\Response
      */
@@ -179,7 +180,7 @@ class UserController extends Controller
      public function importCSV(Request $request)
      {
          $request->validate([
-             'import_csv' => 'required',
+             'import_csv' => 'required|file|mimes:csv,txt',
          ]);
          //read csv file and skip data
          $file = $request->file('import_csv');
@@ -211,42 +212,35 @@ class UserController extends Controller
      }
  
      public function getchunkdata($chunkdata)
- {
-     foreach ($chunkdata as $column) {
-         // $supplier_id = $column[0];
-         $Name = $column[0];
-         $Email = $column[1];
-         $Password = bcrypt($column[2]);
-         $Role = $column[3];
-         $Number = $column[4];
-         $Address = $column[5];
-         $Image = $column[6];
+     {
+         foreach ($chunkdata as $column) {
+             $Name = $column[0];
+             $Email = $column[1];
+             $Password = Hash::make($column[2]); // Hash the password using Hash facade
+             $Role = $column[3];
+             $Number = $column[4];
+             $Address = $column[5];
+             $Image = $column[6];
  
-         // Create new expense
-         $users = new User();
-         // $users->id = $supplier_id;
-         $users->name = $Name;
-         $users->email = $Email;
-         $users->password = $Password;
-         $users->role = $Role;
-         $users->phone_number = $Number;
-         $users->address = $Address;
+             $user = new User();
+             $user->name = $Name;
+             $user->email = $Email;
+             $user->password = $Password; // Store the hashed password
+             $user->role = $Role;
+             $user->phone_number = $Number;
+             $user->address = $Address;
  
-         // Handle image upload
-         if ($Image) {
-             $source_path = 'C:/xampp/htdocs/petzone-master/public/images/' . $Image;
-             if (File::exists($source_path)) {
-                 $destination_path = public_path('storage/images/' . $Image);
-                 File::copy($source_path, $destination_path);
-                 $users->image_path = $Image;
+             if ($Image) {
+                 $source_path = 'C:/xampp/htdocs/petzone-master/public/images/' . $Image;
+                 if (File::exists($source_path)) {
+                     $destination_path = public_path('storage/images/' . $Image);
+                     File::copy($source_path, $destination_path);
+                     $user->image_path = $Image;
+                 }
              }
+ 
+             $user->save();
          }
- 
-         // dd($Supplier);
-         $users->save();
      }
+ 
  }
- 
- 
-
-}

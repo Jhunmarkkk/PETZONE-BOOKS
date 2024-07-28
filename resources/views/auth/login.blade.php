@@ -1,5 +1,7 @@
 @extends('layout')
 
+@include('partials.validation-errors') <!-- Include the validation errors here -->
+
 @section('extra-css')
 <link rel="stylesheet" href="{{ asset('css/login-register.css') }} ">
 
@@ -11,7 +13,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="login-container">
-                        {{-- <div class="">Login</div> --}}
+
                         <div class="card-body">
 
                             <form action="{{ route('api.login') }}" method="POST" id="handleAjax">

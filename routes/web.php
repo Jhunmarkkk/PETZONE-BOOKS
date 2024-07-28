@@ -132,28 +132,28 @@ Route::view('/admin/charts/pie', 'admin.charts.pie')->name('admin.charts.pie');
 //expenses import csv
 Route::resource('expenses', ExpensesController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [ExpensesController::class, 'importCSV'])->name('import');
+Route::post('import-expenses-csv', [ExpensesController::class, 'importCSV'])->name('import.expenses');
 
 
 //suppliers import csv
 Route::resource('suppliers', SupplierController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [SupplierController::class, 'importCSV'])->name('import');
+Route::post('import-suppliers-csv', [SupplierController::class, 'importCSV'])->name('import.suppliers');
 
 
 //categories import csv
 Route::resource('categories', CategoryController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [CategoryController::class, 'importCSV'])->name('import');
+Route::post('import-categories-csv', [CategoryController::class, 'importCSV'])->name('import.categories');
 
 
 //users import csv
 Route::resource('users', UserController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [UserController::class, 'importCSV'])->name('import');
+Route::post('import-users-csv', [UserController::class, 'importCSV'])->name('import.users');
 
 
 //product import csv
 Route::resource('products', productController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [productController::class, 'importCSV'])->name('import');
+Route::post('import-products-csv', [productController::class, 'importCSV'])->name('import.products');

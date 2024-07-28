@@ -13,7 +13,7 @@ class productController extends Controller{
     use HasProduct;
 
     /**
-     * Show products list
+     * Show products list 
      *
      * @return \Illuminate\Http\Response
      */

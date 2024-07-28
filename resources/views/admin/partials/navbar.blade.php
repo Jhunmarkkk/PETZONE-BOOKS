@@ -9,8 +9,8 @@
                             <li class="for-li">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-users"></i><span>User Management</span></a>
                                 <ul class="collapse">
-                                    <li><a href="{{ route('admin.users.all') }}">List</a></li>
-                                    <li><a href="{{ route('admin.users.create') }}">Add</a></li>
+                                    <li><a href="{{ route('api.users.all') }}">List</a></li>
+                                    <li><a href="{{ route('api.users.create') }}">Add</a></li>
                                 </ul>
                             </li>
                             <li class="for-li">
@@ -34,7 +34,13 @@
                                     <li><a href="{{ route('admin.expenses.create') }}">Add</a></li>
                                 </ul>
                             </li>
-                            <li class="for-li"><a href="{{ route('admin.categories.index') }}"><i class="fa fa-shopping-basket"></i> <span>Order Management</span></a></li>
+                            <li class="for-li">
+                                <a href=""><i class="fa fa-shopping-basket"></i> <span>Order Management</span></a>
+                                <ul class="collapse">
+                                    <li><a href="">List</a></li>
+                                    <li><a href="">Add</a></li>
+                                </ul>
+                            </li>
                             <li class="for-li">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-area-chart"></i><span>Charts</span></a>
                                 <ul class="collapse">

@@ -9,7 +9,7 @@
 {{-- import button --}}
     <div class="container">
         <div>
-            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('import.products') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="messages">
                   @if (session('success'))

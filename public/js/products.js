@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // Initialize DataTable
+    // Initialize DataTable 
     var table = $('#products-table').DataTable();
 
     // Fetch and display products

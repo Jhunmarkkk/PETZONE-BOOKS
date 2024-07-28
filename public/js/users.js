@@ -1,16 +1,16 @@
 $(document).ready(function () {
-    // Initialize DataTable
+    // Initialize DataTable 
     $('#users-table').DataTable();
 
     // Fetch and Display Users
     $.ajax({
         type: "GET",
-        url: "/api/users",
+        url: "{{ route('api.users.all') }}",
         dataType: 'json',
         success: function (data) {
             console.log(data);
 
-            $.each(data, function (key, value) {
+            $.each(data.data, function (key, value) {
                 console.log(value);
 
                 var tr = $("<tr>").attr("data-id", value.id); // Add data-id attribute to the row
@@ -37,7 +37,7 @@ $(document).ready(function () {
                 if (confirm("Are you sure you want to delete this user?")) { // Add confirmation dialog
                     $.ajax({
                         type: "DELETE",
-                        url: "/api/users/" + id,
+                        url: "{{ route('api.users.destroy', '') }}/" + id,
                         headers: { // Add CSRF token for security
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -68,7 +68,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: $(this).attr('action'),
+            url: "{{ route('api.users.store') }}",
             data: formData,
             contentType: false,
             processData: false,
@@ -106,8 +106,8 @@ $(document).ready(function () {
         var formData = new FormData(this);
 
         $.ajax({
-            type: "POST",
-            url: $(this).attr('action'),
+            type: "PUT",
+            url: "{{ route('api.users.update', '') }}/" + $(this).data('id'),
             data: formData,
             contentType: false,
             processData: false,

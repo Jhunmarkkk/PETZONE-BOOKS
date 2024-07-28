@@ -7,7 +7,7 @@
 {{-- import button --}}
           <div class="container">
             <div>
-                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('import.users') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="messages">
                       @if (session('success'))
@@ -28,7 +28,7 @@
         </div>
 
     <div class="card">
-        <form id="userForm" action="{{ route('admin.users.store')}}" method="POST" enctype="multipart/form-data">
+        <form id="userForm" action="{{ route('api.users.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="card-body">
                 <div class="row">

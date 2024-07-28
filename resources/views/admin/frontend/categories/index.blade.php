@@ -10,7 +10,7 @@
      {{-- for add.blade --}}
      <div class="container">
         <div>
-            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('import.categories') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="messages">
                   @if (session('success'))

@@ -6,7 +6,7 @@ $(function() {
         $(this).find("[type='submit']").html("Login...");
 
         $.ajax({
-            url: '/api/login', // Ensure this points to the API route
+            url: '/api/login',
             data: $(this).serialize(),
             type: "POST",
             dataType: 'json',
@@ -14,7 +14,7 @@ $(function() {
                 $(e).find("[type='submit']").html("Login");
 
                 if (data.status) {
-                    window.location.href = data.redirect; // Redirect to the new page
+                    window.location.href = data.redirect;
                 } else {
                     $(".alert").remove();
                     $.each(data.errors, function (key, val) {
