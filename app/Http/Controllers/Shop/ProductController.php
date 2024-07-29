@@ -19,7 +19,7 @@ class ProductController extends Controller{
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+        public function index(Request $request){
         // Fetch all products organized by category
         $all = $this->organizeProductsByCategory($request);
 

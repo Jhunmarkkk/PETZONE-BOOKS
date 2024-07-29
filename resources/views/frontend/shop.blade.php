@@ -1,5 +1,3 @@
-DISPLAYING NG MGA BOOKS
-
 @extends('layouts.app')
 
 @section('title', 'Shop')

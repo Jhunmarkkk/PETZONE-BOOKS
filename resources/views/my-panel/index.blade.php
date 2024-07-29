@@ -1,4 +1,4 @@
-UPDATING USER PROFILE 
+
 
 
 @extends('layouts.app')

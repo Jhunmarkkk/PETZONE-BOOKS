@@ -3,10 +3,10 @@
 @section('title' , 'Admin-Add User')
 @section('content')
 
-@if(session('customErrors'))
-  <div class="custom-alert custom-alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
-      @foreach(session('customErrors') as $error)
-        {{ $error }} <br>
+@if($errors->any())
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+      @foreach($errors->all() as $error)
+        {{$error}} <br>
       @endforeach 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
@@ -38,7 +38,7 @@
         </div>
 
     <div class="card">
-        <form id="userForm" action="{{ route('api.users.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="userForm" action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="card-body">
                 <div class="row">

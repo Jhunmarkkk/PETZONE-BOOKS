@@ -1,4 +1,4 @@
-<?PhP 
+<?php
 namespace App\Services\Shop\Traits;
 
 use App\Models\Category;

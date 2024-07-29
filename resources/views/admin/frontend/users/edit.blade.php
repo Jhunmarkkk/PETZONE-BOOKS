@@ -4,19 +4,20 @@
 
 @section('content')
 
-@if(session('customErrors'))
-  <div class="custom-alert custom-alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
-      @foreach(session('customErrors') as $error)
-        {{ $error }} <br>
+@if($errors->any())
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+      @foreach($errors->all() as $error)
+        {{$error}} <br>
       @endforeach 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
+
 @endif
 
 {{-- Edit user form start --}}
 <div class="col-12 mt-5">
     <div class="card">
-        <form id="userEditForm" action="{{ route('api.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="userEditForm" action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @method('put')
         @csrf
             <div class="card-body">
